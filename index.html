@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koshi Translator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-center"> 
+        <div class="col-md-6 mt-5 pt-5">
+          <h1 class="text-center font-weight-bold mb-4">Scandi Translator</h1>
+          <form id="translationForm">
+            <div class="form-group">
+              <label for="inputText">Enter Text to Translate:</label>
+              <input type="text" class="form-control" id="inputText" name="inputText" placeholder="Enter text to translate" />
+            </div>
+            <button type="button" class="btn btn-primary mt-3" onclick="translateText()">Translate</button>
+          </form>
+          <div id="translationResult" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript">
+      function translateText() {
+        var inputText = document.getElementById("inputText").value.toLowerCase(); // Convert input to lowercase for case-insensitive matching
+        var translatedText = generatePseudoTranslation(inputText);
+        document.getElementById("translationResult").innerHTML = "<strong>Translated Text:</strong> " + translatedText;
+      }
+
+      function generatePseudoTranslation(text) {
+        // This function generates pseudo-translations with diacritics inspired by Nordic languages
+        var pseudoTranslation = "";
+        for (var i = 0; i < text.length; i++) {
+          var charCode = text.charCodeAt(i);
+          var translatedCharCode;
+          if (charCode >= 97 && charCode <= 122) { // Check if character is lowercase letter
+            translatedCharCode = charCode + 1;
+            if (translatedCharCode > 122) {
+              translatedCharCode = 97; // Wrap around if going beyond 'z'
+            }
+          } else {
+            translatedCharCode = charCode; // Keep non-alphabetic characters unchanged
+          }
+          pseudoTranslation += String.fromCharCode(translatedCharCode);
+        }
+        // Add diacritics to the translation (example: ä, ö, å)
+        pseudoTranslation = pseudoTranslation.replace(/a/g, 'ä').replace(/o/g, 'ö').replace(/a/g, 'å');
+        return pseudoTranslation;
+      }
+    </script>
+  </body>
+</html>
